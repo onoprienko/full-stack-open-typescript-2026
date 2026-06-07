@@ -1,3 +1,5 @@
+import { isNotNumber } from './utils.ts';
+
 type Rating = 1 | 2 | 3;
 
 interface calculateExercisesResult {
@@ -41,4 +43,28 @@ const calculateExercises = (
   };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+try {
+  const rawTarget = process.argv[2];
+  const rawHours = process.argv.slice(3);
+
+  if (!rawTarget || rawHours.length === 0) throw new Error('Some data missing');
+  if (isNotNumber(rawTarget)) throw new Error('Target not a number');
+
+  const target: number = Number(rawTarget);
+  if (target < 0) throw new Error('Target must be positive number');
+
+  const hoursPerDay: Array<number> = rawHours.map((hour) => {
+    if (isNotNumber(hour)) throw new Error('All values must be a numbers');
+    const num = Number(hour);
+    if (num < 0) throw new Error('All values must be positive number');
+    return num;
+  });
+
+  console.log(calculateExercises(hoursPerDay, target));
+} catch (error: unknown) {
+  if (error instanceof Error) {
+    console.error('Error:', error.message);
+  } else {
+    console.error('Unknown error');
+  }
+}
