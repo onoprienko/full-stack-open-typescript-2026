@@ -7,25 +7,29 @@ const calculateBmi = (height: number, weight: number): string => {
   return `Obese`;
 };
 
-try {
-  const rawHeight = process.argv[2];
-  const rawWeight = process.argv[3];
+if (process.argv[1] === import.meta.filename) {
+  try {
+    const rawHeight = process.argv[2];
+    const rawWeight = process.argv[3];
 
-  if (rawHeight === undefined || rawWeight === undefined)
-    throw new Error('Height and weight must be provided');
-  if (isNotNumber(rawHeight)) throw new Error('Height not a number');
-  const height: number = Number(rawHeight);
-  if (height <= 0) throw new Error('Height must be positive number');
-  if (isNotNumber(rawWeight)) throw new Error('Weight not a number');
-  const weight: number = Number(rawWeight);
-  if (weight <= 0) throw new Error('Weight must be positive number');
+    if (rawHeight === undefined || rawWeight === undefined)
+      throw new Error('Height and weight must be provided');
+    if (isNotNumber(rawHeight)) throw new Error('Height not a number');
+    const height: number = Number(rawHeight);
+    if (height <= 0) throw new Error('Height must be positive number');
+    if (isNotNumber(rawWeight)) throw new Error('Weight not a number');
+    const weight: number = Number(rawWeight);
+    if (weight <= 0) throw new Error('Weight must be positive number');
 
-  console.log(calculateBmi(height, weight));
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    console.error('Error:', error.message);
-  } else {
-    console.error('Unknown error');
+    console.log(calculateBmi(height, weight));
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Error:', error.message);
+    } else {
+      console.error('Unknown error');
+    }
+    process.exit(1);
   }
-  process.exit(1);
 }
+
+export default calculateBmi;
