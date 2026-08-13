@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-import calculateBmi from './bmiCalculator.ts';
+import { calculateBmi, validateBmiInputData } from './bmiCalculator.ts';
 import {
   calculateExercises,
   validateExercisesInputData,
@@ -17,18 +17,10 @@ app.get('/hello', (_req, res) => {
 
 app.get('/bmi', (req, res) => {
   try {
-    const rawHeight = req.query.height;
-    const rawWeight = req.query.weight;
-
-    if (rawHeight === undefined || rawWeight === undefined)
-      throw new Error('Height and weight must be provided');
-    if (isNotNumber(rawHeight)) throw new Error('Height not a number');
-    const height: number = Number(rawHeight);
-    if (height <= 0) throw new Error('Height must be positive number');
-    if (isNotNumber(rawWeight)) throw new Error('Weight not a number');
-    const weight: number = Number(rawWeight);
-    if (weight <= 0) throw new Error('Weight must be positive number');
-
+    const { height, weight } = validateBmiInputData(
+      req.query.height,
+      req.query.weight,
+    );
     const bmi = calculateBmi(height, weight);
     res.json({ weight, height, bmi });
   } catch (error: unknown) {
