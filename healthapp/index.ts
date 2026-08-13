@@ -9,7 +9,6 @@ import {
   calculateExercises,
   validateExercisesInputData,
 } from './exerciseCalculator.ts';
-import { isNotNumber } from './utils.ts';
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
@@ -48,7 +47,9 @@ app.post('/exercises', (req, res) => {
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('Error:', error.message);
-      res.status(400).json({ error: `${error.message}` });
+      res.status(400).json({
+        error: `${error.message.includes('missing') ? 'parameters missing' : 'malformatted parameters'}`,
+      });
     } else {
       console.error('Unknown error');
       res.status(500).json({ error: 'Unknown error' });
