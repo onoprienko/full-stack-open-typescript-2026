@@ -25,9 +25,7 @@ app.get('/bmi', (req, res) => {
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('Error:', error.message);
-      res
-        .status(400)
-        .json({ error: `malformatted parameters. ${error.message}` });
+      res.status(400).json({ error: `malformatted parameters` });
     } else {
       console.error('Unknown error');
       res.status(500).json({ error: 'Unknown error' });
@@ -57,7 +55,7 @@ app.post('/exercises', (req, res) => {
   }
 });
 
-const PORT = 3003;
+const PORT = 3000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
