@@ -43,25 +43,29 @@ const calculateExercises = (
   };
 };
 
+const validateExercisesInputData = (rawTarget: unknown, rawHours: unknown) => {
+  if (!rawTarget || !rawHours) throw new Error('Some data missing');
+  if (isNotNumber(rawTarget)) throw new Error('Target not a number');
+
+  const target: number = Number(rawTarget);
+  if (target < 0) throw new Error('Target must be positive number');
+
+  const hoursPerDay: Array<number> = (rawHours as unknown[]).map((hour) => {
+    if (isNotNumber(hour)) throw new Error('All values must be a numbers');
+    const num = Number(hour);
+    if (num < 0) throw new Error('All values must be positive number');
+    return num;
+  });
+
+  return { hoursPerDay, target };
+};
+
 if (process.argv[1] === import.meta.filename) {
   try {
-    const rawTarget = process.argv[2];
-    const rawHours = process.argv.slice(3);
-
-    if (!rawTarget || rawHours.length === 0)
-      throw new Error('Some data missing');
-    if (isNotNumber(rawTarget)) throw new Error('Target not a number');
-
-    const target: number = Number(rawTarget);
-    if (target < 0) throw new Error('Target must be positive number');
-
-    const hoursPerDay: Array<number> = rawHours.map((hour) => {
-      if (isNotNumber(hour)) throw new Error('All values must be a numbers');
-      const num = Number(hour);
-      if (num < 0) throw new Error('All values must be positive number');
-      return num;
-    });
-
+    const { hoursPerDay, target } = validateExercisesInputData(
+      process.argv[2],
+      process.argv.slice(3),
+    );
     console.log(calculateExercises(hoursPerDay, target));
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -72,4 +76,4 @@ if (process.argv[1] === import.meta.filename) {
   }
 }
 
-export default calculateExercises;
+export { calculateExercises, validateExercisesInputData };
