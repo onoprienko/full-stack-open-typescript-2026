@@ -3,6 +3,8 @@
     "target": "esnext",
     "noEmit": true,
     "module": "nodenext",
+    "resolveJsonModule": true,
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,
     "strict": true,
