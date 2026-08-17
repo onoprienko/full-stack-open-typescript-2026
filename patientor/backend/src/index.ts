@@ -1,5 +1,6 @@
 import express from 'express';
 import diaryRouter from './routes/diaries.ts';
+import diagnosesRouter from './routes/diagnoses.ts';
 import cors from 'cors';
 
 const app = express();
@@ -18,6 +19,8 @@ app.get('/api/patients', (_req, res) => {
   console.log('patients endpoint request');
   res.send('patients');
 });
+
+app.use('/api/diagnoses', diagnosesRouter);
 
 app.use('/api/diaries', diaryRouter);
 
