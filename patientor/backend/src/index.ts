@@ -1,6 +1,7 @@
 import express from 'express';
 import diaryRouter from './routes/diaries.ts';
 import diagnosesRouter from './routes/diagnoses.ts';
+import patientsRouter from './routes/patients.ts';
 import cors from 'cors';
 
 const app = express();
@@ -15,10 +16,7 @@ app.get('/api/ping', (_req, res) => {
   res.send('pong');
 });
 
-app.get('/api/patients', (_req, res) => {
-  console.log('patients endpoint request');
-  res.send('patients');
-});
+app.use('/api/patients', patientsRouter);
 
 app.use('/api/diagnoses', diagnosesRouter);
 

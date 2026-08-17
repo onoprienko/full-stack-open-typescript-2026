@@ -9,7 +9,7 @@ router.get('/', (_req, res: Response<NonSensitiveDiagnosesEntry[]>) => {
 });
 
 router.post('/', (_req, res) => {
-  res.send('Saving a diary!');
+  res.send('Saving a diagnosis!');
 });
 
 export default router;

@@ -11,9 +11,9 @@ export interface DiaryEntry {
   comment?: string;
 }
 
-// Diagnoses
 export type NonSensitiveDiaryEntry = Omit<DiaryEntry, 'comment'>;
 
+// Diagnoses
 export interface DiagnosesEntry {
   code: string;
   name: string;
@@ -21,3 +21,15 @@ export interface DiagnosesEntry {
 }
 
 export type NonSensitiveDiagnosesEntry = Omit<DiagnosesEntry, 'latin'>;
+
+//Patients
+export interface PatientsEntry {
+  id: string;
+  name: string;
+  dateOfBirth: string;
+  gender: string;
+  occupation: string;
+  ssn?: string;
+}
+
+export type NonSensitivePatientsEntry = Omit<PatientsEntry, 'ssn'>;
