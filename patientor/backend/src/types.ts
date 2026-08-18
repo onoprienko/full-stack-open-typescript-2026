@@ -40,13 +40,22 @@ export interface DiagnosesEntry {
 export type NonSensitiveDiagnosesEntry = Omit<DiagnosesEntry, 'latin'>;
 
 //Patients
+export const Gender = {
+  Male: 'male',
+  Female: 'female',
+  Other: 'other',
+} as const;
+export type Gender = (typeof Gender)[keyof typeof Gender];
+
 export interface PatientsEntry {
   id: string;
   name: string;
   dateOfBirth: string;
-  gender: string;
+  gender: Gender;
   occupation: string;
   ssn?: string;
 }
+
+export type NewPatientEntry = Omit<PatientsEntry, 'id'>;
 
 export type NonSensitivePatientsEntry = Omit<PatientsEntry, 'ssn'>;
