@@ -1,4 +1,4 @@
-import type { NewEntrySchema } from './utils.ts';
+import type { NewEntrySchema, NewPatientEntrySchema } from './utils.ts';
 import type { z } from 'zod';
 
 // Diary
@@ -23,7 +23,6 @@ export type Visibility = (typeof Visibility)[keyof typeof Visibility];
 
 export type NonSensitiveDiaryEntry = Omit<DiaryEntry, 'comment'>;
 
-// infer the type from schema
 export type NewDiaryEntry = z.infer<typeof NewEntrySchema>;
 
 export interface DiaryEntry extends NewDiaryEntry {
@@ -47,15 +46,10 @@ export const Gender = {
 } as const;
 export type Gender = (typeof Gender)[keyof typeof Gender];
 
-export interface PatientsEntry {
-  id: string;
-  name: string;
-  dateOfBirth: string;
-  gender: Gender;
-  occupation: string;
-  ssn?: string;
-}
+export type NewPatientEntry = z.infer<typeof NewPatientEntrySchema>;
 
-export type NewPatientEntry = Omit<PatientsEntry, 'id'>;
+export interface PatientsEntry extends NewPatientEntry {
+  id: string;
+}
 
 export type NonSensitivePatientsEntry = Omit<PatientsEntry, 'ssn'>;
