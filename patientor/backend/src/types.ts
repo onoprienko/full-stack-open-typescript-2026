@@ -1,3 +1,6 @@
+import type { NewEntrySchema } from './utils.ts';
+import type { z } from 'zod';
+
 // Diary
 export const Weather = {
   Sunny: 'sunny',
@@ -18,17 +21,14 @@ export const Visibility = {
 
 export type Visibility = (typeof Visibility)[keyof typeof Visibility];
 
-export interface DiaryEntry {
-  id: number;
-  date: string;
-  weather: Weather;
-  visibility: Visibility;
-  comment?: string;
-}
-
 export type NonSensitiveDiaryEntry = Omit<DiaryEntry, 'comment'>;
 
-export type NewDiaryEntry = Omit<DiaryEntry, 'id'>;
+// infer the type from schema
+export type NewDiaryEntry = z.infer<typeof NewEntrySchema>;
+
+export interface DiaryEntry extends NewDiaryEntry {
+  id: number;
+}
 
 // Diagnoses
 export interface DiagnosesEntry {
