@@ -1,12 +1,6 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-
-interface Diary {
-  id: number;
-  date: string;
-  weather: string;
-  visibility: string;
-}
+import type { Diary } from './types';
+import diaryService from './diaryService';
 
 const App = () => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
@@ -16,22 +10,26 @@ const App = () => {
   const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
-    axios.get<Diary[]>('http://localhost:3000/api/diaries').then((response) => {
-      setDiaries(response.data);
+    diaryService.getAll().then((initialDiaries) => {
+      setDiaries(initialDiaries);
     });
   }, []);
 
   const diaryCreation = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const diaryToAdd = {
+
+    const newDiary = {
       id: Number(diaries.length + 1),
       date: newDate,
       weather: newWeather,
-      visibility: newWeather,
+      visibility: newVisibility,
       comment: newComment,
     };
-    setDiaries(diaries.concat(diaryToAdd));
-    setNewDate('');
+
+    diaryService.create(newDiary).then((returnedDiary) => {
+      setDiaries(diaries.concat(returnedDiary));
+    });
+    //setNewDate('');
   };
 
   return (
@@ -76,6 +74,7 @@ const App = () => {
             </p>
             <p>visibility: {diary.visibility}</p>
             <p>weather: {diary.weather}</p>
+            <p>comment: {diary.comment}</p>
           </li>
         ))}
       </ul>
