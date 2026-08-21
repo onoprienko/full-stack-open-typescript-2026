@@ -11,6 +11,9 @@ interface Diary {
 const App = () => {
   const [diaries, setDiaries] = useState<Diary[]>([]);
   const [newDate, setNewDate] = useState('');
+  const [newVisibility, setNewVisibility] = useState('');
+  const [newWeather, setNewWeather] = useState('');
+  const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
     axios.get<Diary[]>('http://localhost:3000/api/diaries').then((response) => {
@@ -23,8 +26,9 @@ const App = () => {
     const diaryToAdd = {
       id: Number(diaries.length + 1),
       date: newDate,
-      weather: 'new',
-      visibility: 'new',
+      weather: newWeather,
+      visibility: newWeather,
+      comment: newComment,
     };
     setDiaries(diaries.concat(diaryToAdd));
     setNewDate('');
@@ -38,6 +42,27 @@ const App = () => {
           <input
             value={newDate}
             onChange={(event) => setNewDate(event.target.value)}
+          />
+        </p>
+        <p>
+          <label>visibility: </label>
+          <input
+            value={newVisibility}
+            onChange={(event) => setNewVisibility(event.target.value)}
+          />
+        </p>
+        <p>
+          <label>weather: </label>
+          <input
+            value={newWeather}
+            onChange={(event) => setNewWeather(event.target.value)}
+          />
+        </p>
+        <p>
+          <label>comment: </label>
+          <input
+            value={newComment}
+            onChange={(event) => setNewComment(event.target.value)}
           />
         </p>
 
