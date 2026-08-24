@@ -54,23 +54,44 @@ const App = () => {
         <p>
           <label>date: </label>
           <input
+            type="date"
             value={newDate}
             onChange={(event) => setNewDate(event.target.value)}
           />
         </p>
         <p>
-          <label>visibility: </label>
-          <input
-            value={newVisibility}
-            onChange={(event) => setNewVisibility(event.target.value)}
-          />
+          <span>visibility: </span>
+          {['great', 'good', 'ok', 'poor'].map((value) => (
+            <label key={value}>
+              <input
+                type="radio"
+                name="visibility"
+                value={value}
+                checked={newVisibility === value}
+                onChange={(e) =>
+                  setNewVisibility((e.target as HTMLInputElement).value)
+                }
+              />
+              {value}
+            </label>
+          ))}
         </p>
         <p>
-          <label>weather: </label>
-          <input
-            value={newWeather}
-            onChange={(event) => setNewWeather(event.target.value)}
-          />
+          <span>weather: </span>
+          {['sunny', 'rainy', 'cloudy', 'stormy', 'windy'].map((value) => (
+            <label key={value}>
+              <input
+                type="radio"
+                name="weather"
+                value={value}
+                checked={newWeather === value}
+                onChange={(e) =>
+                  setNewWeather((e.target as HTMLInputElement).value)
+                }
+              />
+              {value}
+            </label>
+          ))}
         </p>
         <p>
           <label>comment: </label>
