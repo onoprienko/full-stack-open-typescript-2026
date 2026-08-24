@@ -8,6 +8,7 @@ const App = () => {
   const [newVisibility, setNewVisibility] = useState('');
   const [newWeather, setNewWeather] = useState('');
   const [newComment, setNewComment] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     diaryService.getAll().then((initialDiaries) => {
@@ -15,26 +16,41 @@ const App = () => {
     });
   }, []);
 
-  const diaryCreation = (event: React.SyntheticEvent) => {
+  const diaryCreation = async (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    const newDiary = {
-      id: Number(diaries.length + 1),
-      date: newDate,
-      weather: newWeather,
-      visibility: newVisibility,
-      comment: newComment,
-    };
+    try {
+      const newDiary = {
+        id: Number(diaries.length + 1),
+        date: newDate,
+        weather: newWeather,
+        visibility: newVisibility,
+        comment: newComment,
+      };
 
-    diaryService.create(newDiary).then((returnedDiary) => {
+      const returnedDiary = await diaryService.create(newDiary);
       setDiaries(diaries.concat(returnedDiary));
-    });
-    //setNewDate('');
+
+      setNewDate('');
+      setNewVisibility('');
+      setNewWeather('');
+      setNewComment('');
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Something went wrong';
+
+      setErrorMessage(`Error: ${message}`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
   };
 
   return (
     <div>
+      <h2>Add new entry</h2>
       <form onSubmit={diaryCreation}>
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <p>
           <label>date: </label>
           <input
@@ -66,6 +82,7 @@ const App = () => {
 
         <button type="submit">add</button>
       </form>
+      <h2>Diary entries</h2>
       <ul>
         {diaries.map((diary) => (
           <li key={diary.id}>
