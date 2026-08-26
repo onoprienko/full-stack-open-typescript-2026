@@ -1,4 +1,4 @@
-import patientsEntries from '../../data/patients.ts';
+import patientsEntries from '../../data/patients-full.ts';
 import type {
   NewPatientEntry,
   NonSensitivePatientsEntry,
