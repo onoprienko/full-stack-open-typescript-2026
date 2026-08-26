@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { Patient } from '../../types';
+import { Patient, Diagnosis } from '../../types';
 import patientService from '../../services/patients';
+import diagnosesService from '../../services/diagnoses';
 import { useEffect, useState } from 'react';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
@@ -14,6 +15,7 @@ const GenderIcon = ({ gender }: { gender: Patient['gender'] }) => {
 
 const PatientPage = () => {
   const [patient, setPatient] = useState<Patient | null>(null);
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[] | null>(null);
   const id = useParams().id as string;
 
   useEffect(() => {
@@ -32,6 +34,23 @@ const PatientPage = () => {
     };
     getPatient();
   }, [id]);
+
+  useEffect(() => {
+    const getDiagnoses = async () => {
+      if (!patient) {
+        setDiagnoses(null);
+        return;
+      }
+      try {
+        const data = await diagnosesService.getAll();
+        setDiagnoses(data);
+      } catch (error) {
+        console.error(error);
+        setDiagnoses(null);
+      }
+    };
+    getDiagnoses();
+  }, [patient]);
 
   if (!patient) {
     return <div>Patient not found.</div>;
@@ -54,7 +73,14 @@ const PatientPage = () => {
             </p>
             <ul>
               {entry.diagnosisCodes?.map((code) => {
-                return <li key={code}>{code}</li>;
+                const name = diagnoses?.find(
+                  (item) => item.code === code,
+                )?.name;
+                return (
+                  <li key={code}>
+                    {code} {name}
+                  </li>
+                );
               })}
             </ul>
           </div>
