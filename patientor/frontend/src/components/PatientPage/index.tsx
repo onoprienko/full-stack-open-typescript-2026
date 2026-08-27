@@ -6,6 +6,7 @@ import diagnosesService from '../../services/diagnoses';
 import { useEffect, useState } from 'react';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
+import EntryDetails from './EntryDetails';
 
 const GenderIcon = ({ gender }: { gender: Patient['gender'] }) => {
   if (gender === 'male') return <MaleIcon />;
@@ -65,27 +66,9 @@ const PatientPage = () => {
       <p>occupation: {patient.occupation}</p>
       <p>date of birth: {patient.dateOfBirth}</p>
       <Typography variant="h5">entries</Typography>
-      {patient.entries?.map((entry) => {
-        return (
-          <div>
-            <p key={entry.id}>
-              {entry.date} <i>{entry.description}</i>
-            </p>
-            <ul>
-              {entry.diagnosisCodes?.map((code) => {
-                const name = diagnoses?.find(
-                  (item) => item.code === code,
-                )?.name;
-                return (
-                  <li key={code}>
-                    {code} {name}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        );
-      })}
+      {patient.entries?.map((entry) => (
+        <EntryDetails key={entry.id} entry={entry} diagnoses={diagnoses} />
+      ))}
     </div>
   );
 };
