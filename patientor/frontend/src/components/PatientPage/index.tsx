@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
 import EntryDetails from './EntryDetails';
+import EntryForm from './EntryForm';
 
 const GenderIcon = ({ gender }: { gender: Patient['gender'] }) => {
   if (gender === 'male') return <MaleIcon />;
@@ -65,6 +66,7 @@ const PatientPage = () => {
       <p>ssn: {patient.ssn}</p>
       <p>occupation: {patient.occupation}</p>
       <p>date of birth: {patient.dateOfBirth}</p>
+      <EntryForm patient={patient} setPatient={setPatient} />
       <Typography variant="h5">entries</Typography>
       {patient.entries?.map((entry) => (
         <EntryDetails key={entry.id} entry={entry} diagnoses={diagnoses} />

@@ -1,4 +1,4 @@
-import type { NewPatientEntry, Entry, NewEntry } from './types.ts';
+import type { NewPatientEntry, NewEntry } from './types.ts';
 import { Weather, Visibility, Gender } from './types.ts';
 import { z } from 'zod';
 
@@ -24,6 +24,7 @@ export const parseNewPatientEntry = (object: unknown): NewPatientEntry => {
 };
 
 export const parseNewEntry = (object: unknown): NewEntry => {
+  // TODO: use zod schema as only source for types declaration
   const BaseEntrySchema = z.object({
     description: z.string(),
     date: z.iso.date(),

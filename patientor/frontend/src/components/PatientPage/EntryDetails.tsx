@@ -26,6 +26,10 @@ const EntryDetails = ({
             <div>{entry.date} 🩺</div>
             <i>{entry.description}</i>
             <div>diagnosed by {entry.specialist}</div>
+            <DiagnosisCodes
+              diagnosisCodes={entry.diagnosisCodes}
+              diagnoses={diagnoses}
+            />
           </div>
           <HealthRatingBar rating={entry.healthCheckRating} showText={true} />
         </Box>
