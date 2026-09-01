@@ -39,7 +39,7 @@ const commonStyles = {
 
 const EntryForm = ({ patient, setPatient }: EntryFormProps) => {
   const [entryType, setEntryType] = useState<Entry['type']>('HealthCheck');
-  const [date, setDate] = useState(dayjs(new Date()));
+  const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
   const [specialist, setSpecialist] = useState('');
   const [diagnosisCodes, setDiagnosisCodes] = useState<string[]>([]);
@@ -97,7 +97,7 @@ const EntryForm = ({ patient, setPatient }: EntryFormProps) => {
 
   const resetForm = () => {
     setEntryType('HealthCheck');
-    setDate(dayjs(new Date()));
+    setDate('');
     setDescription('');
     setSpecialist('');
     setDiagnosisCodes([]);
@@ -117,7 +117,7 @@ const EntryForm = ({ patient, setPatient }: EntryFormProps) => {
   const createNew = async () => {
     let newEntry: NewEntry = {
       type: entryType,
-      date: date.format('YYYY-MM-DD'),
+      date,
       description,
       specialist,
     };
@@ -196,16 +196,14 @@ const EntryForm = ({ patient, setPatient }: EntryFormProps) => {
           </Select>
         </FormControl>
         <div>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="date"
-              value={date}
-              onChange={(newValue) => {
-                if (newValue != null) setDate(newValue);
-              }}
-              format="YYYY-MM-DD"
-            />
-          </LocalizationProvider>
+          <TextField
+            label="date"
+            required={true}
+            value={date}
+            onChange={({ target }) => setDate(target.value)}
+            size="small"
+            type="date"
+          />
         </div>
         <div>
           <TextField
@@ -345,7 +343,7 @@ const EntryForm = ({ patient, setPatient }: EntryFormProps) => {
         <hr />
         <div style={{ marginTop: 10 }}>
           <Button type="submit" variant="contained">
-            add
+            Add New Entry
           </Button>
           <Button
             type="button"
