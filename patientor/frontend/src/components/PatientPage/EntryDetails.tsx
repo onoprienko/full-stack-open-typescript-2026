@@ -23,7 +23,7 @@ const EntryDetails = ({
       return (
         <Box key={entry.id} sx={{ ...commonStyles, border: 1 }}>
           <div>
-            <div>{entry.date} 🩺</div>
+            <div>{entry.date}</div>
             <i>{entry.description}</i>
             <div>diagnosed by {entry.specialist}</div>
             <DiagnosisCodes
@@ -31,6 +31,8 @@ const EntryDetails = ({
               diagnoses={diagnoses}
             />
           </div>
+          <hr />
+          <p>🩺 {entry.type}</p>
           <HealthRatingBar rating={entry.healthCheckRating} showText={true} />
         </Box>
       );
@@ -38,15 +40,22 @@ const EntryDetails = ({
       return (
         <Box key={entry.id} sx={{ ...commonStyles, border: 1 }}>
           <div>
-            <div>
-              {entry.date} 💼 employerName: {entry.employerName}
-            </div>
+            <div>{entry.date}</div>
             <i>{entry.description}</i>
             <div>diagnosed by {entry.specialist}</div>
             <DiagnosisCodes
               diagnosisCodes={entry.diagnosisCodes}
               diagnoses={diagnoses}
             />
+            <hr />
+            <p>💼 {entry.type}</p>
+            <div>employerName: {entry.employerName}</div>
+            {!entry.sickLeave || (
+              <div>
+                sick leave: {entry.sickLeave?.startDate} -{' '}
+                {entry.sickLeave?.endDate}
+              </div>
+            )}
           </div>
         </Box>
       );
@@ -54,7 +63,7 @@ const EntryDetails = ({
       return (
         <Box key={entry.id} sx={{ ...commonStyles, border: 1 }}>
           <div>
-            <div>{entry.date} 🚑</div>
+            <div>{entry.date}</div>
             <i>{entry.description}</i>
             <div>diagnosed by {entry.specialist}</div>
           </div>
@@ -62,6 +71,8 @@ const EntryDetails = ({
             diagnosisCodes={entry.diagnosisCodes}
             diagnoses={diagnoses}
           />
+          <hr />
+          <p>🚑 {entry.type}</p>
           <div>
             Discharge: {entry.discharge.date} - {entry.discharge.criteria}
           </div>

@@ -67,7 +67,7 @@ const PatientPage = () => {
       <p>occupation: {patient.occupation}</p>
       <p>date of birth: {patient.dateOfBirth}</p>
       <EntryForm patient={patient} setPatient={setPatient} />
-      <Typography variant="h5">entries</Typography>
+      <Typography variant="h5">Entries:</Typography>
       {patient.entries?.map((entry) => (
         <EntryDetails key={entry.id} entry={entry} diagnoses={diagnoses} />
       ))}
